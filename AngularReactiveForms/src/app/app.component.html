@@ -1,0 +1,81 @@
+<div class="container-fluid">
+  <h1>Registration Form</h1>
+  <form [formGroup]="registrationForm"  (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-control" formControlName="userName" 
+      [class.is-invalid]="userName.invalid && userName.touched" autocomplete="current-password">
+      <!-- <small [class.d-none]="registrationForm.get('userName').valid || registrationForm.get('userName').untouched">
+        Username is required</small> -->
+      <div *ngIf="userName.invalid && userName.touched">
+         <small *ngIf="userName.errors?.required" class="text-danger">Username is required</small>
+         <small *ngIf="userName.errors?.minlength" class="text-danger">Username must be atleast 5 characters</small>
+         <small *ngIf="userName.errors?.forbiddenName" class="text-danger">{{userName.errors.forbiddenName.value}} username not allowed</small>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label>Email</label>
+      <!-- <button type="button" class="btn btn-secondary btn-sm m-2" (click)="addAlternateEmail()">Add e-mail</button> -->
+      <input [class.is-invalid]="email.invalid && email.touched" type="text" formControlName="email" class="form-control" autocomplete="current-password">
+      <small class="text-danger" [class.d-none]="email.valid || email.untouched">Email is required</small>
+      <!-- <div formArrayName="alternateEmails" *ngFor = "let email of alternateEmails.controls; let i=index">
+        <input type="text" class="form-control my-1" [formControlName]="i">
+      </div> -->
+    </div>
+
+    <div class="form-check">
+      <input class="form-control-input" formControlName="subscribe" type="checkbox" autocomplete="current-password">
+      <label class="form-check-label">Sign up for the Newsletter</label>
+    </div>
+
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" class="form-control" formControlName="password" autocomplete="current-password" >
+    </div>
+
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password" [class.is-invalid]="registrationForm.errors?.misMatch" formControlName="confirmPassword" class="form-control" autocomplete="current-password">
+      <small class="text-danger" *ngIf="registrationForm.errors?.misMatch">Passwords do not match</small>
+    </div>
+
+
+    <!-- <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password" [class.is-invalid]="registrationForm.errors?.misMatch" class="form-control" formControlName="confirmPassword" autocomplete="on">
+      <small class="text-danger" *ngIf="registrationForm.errors?.misMatch">Passwords do not match</small>
+    </div> -->
+
+    
+    <div formGroupName="address">
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" class="form-control" formControlName="city">
+      </div>
+  
+      <div class="form-group">
+        <label>State</label>
+        <input type="text" class="form-control" formControlName="state">
+      </div>
+  
+      <div class="form-group">
+        <label>Postal Code</label>
+        <input type="text" class="form-control" formControlName="postalCode">
+      </div>
+    </div>
+    
+
+
+    <br>
+
+
+    <button class="btn btn-primary" type="submit" [disabled]='!registrationForm.valid'>Register</button>
+    <button (click)="loadApiData()" class="btn btn-secondary m-3" type="button">Load API Data</button>
+  </form>
+
+  {{registrationForm.value | json}}
+</div>
